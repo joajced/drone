@@ -1,3 +1,10 @@
-= Drone
+= Flight controller for a quadcopter drone
 
-ROS2 + PX4
+* C++17
+* ROS 2 Jazzy
+* Simulated using Gazebo Harmonic (and PX4's x500 drone model)
+
+== Features
+
+* Read IMU data
+* Fly (coming soon)
