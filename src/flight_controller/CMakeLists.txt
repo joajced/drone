@@ -12,6 +12,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(actuator_msgs REQUIRED)
 
 add_executable(flight_controller_node
   src/main.cpp
@@ -25,6 +26,7 @@ target_include_directories(flight_controller_node PUBLIC
 ament_target_dependencies(flight_controller_node
   rclcpp
   sensor_msgs
+  actuator_msgs
 )
 
 install(
