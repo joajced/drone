@@ -15,7 +15,7 @@ find_package(sensor_msgs REQUIRED)
 
 add_executable(flight_controller_node
   src/main.cpp
-  src/ImuDriver.cpp
+  src/FlightControllerNode.cpp
 )
 
 target_include_directories(flight_controller_node PUBLIC
