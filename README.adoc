@@ -12,28 +12,28 @@
 == Running the simulation
 
 1. Build:
-
++
 [source,bash]
 ----
 colcon build
 ----
 
 2. Source:
-
++
 [source,bash]
 ----
 source install/setup.bash
 ----
 
 3. Start ROS:
-
++
 [source,bash]
 ----
 ros2 launch drone_bringup sim.launch.py
 ----
 
 4. Start Gazebo (separate terminal window):
-
++
 [source,bash]
 ----
 ros2 launch ros_gz_sim gz_sim.launch.py gz_args:="/usr/share/gz/gz-sim8/worlds/lawn.sdf"
