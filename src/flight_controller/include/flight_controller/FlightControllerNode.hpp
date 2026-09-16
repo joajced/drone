@@ -19,16 +19,19 @@ private:
   void imuCallback(sensor_msgs::msg::Imu::ConstSharedPtr msg);
   void airPressureCallback(sensor_msgs::msg::FluidPressure::ConstSharedPtr msg);
   void throttleCommandCallback(std_msgs::msg::Float64::ConstSharedPtr msg);
+  void hoverCommandCallback(std_msgs::msg::Float64::ConstSharedPtr msg);
 
   /* Flight mode logic */
 
   void doThrottle(actuator_msgs::msg::Actuators& motorSpeeds);
+  void doHover(actuator_msgs::msg::Actuators& motorSpeeds);
 
   /* Subscriptions */
 
   rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imuSubscription_;
   rclcpp::Subscription<sensor_msgs::msg::FluidPressure>::SharedPtr airPressureSubscription_;
   rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr throttleCommandSubscription_;
+  rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr hoverCommandSubscription_;
 
   /* Publishers */
 
@@ -43,6 +46,7 @@ private:
 
   FlightMode flightMode_;
   double throttleCommand_;
+  double targetHoverAltitude_;
 
   /* Timers */
 

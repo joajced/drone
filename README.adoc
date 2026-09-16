@@ -46,6 +46,7 @@ ros2 launch ros_gz_sim gz_sim.launch.py gz_args:="/usr/share/gz/gz-sim8/worlds/l
 The following commands are available to the user:
 
 * `/command/throttle`: Drive straight up or down. Expects a floating point number between 0 and 1000, where ~770 is enough to lift off.
+* `/command/hover`: Fly to a specific target altitude and maintain it. Expects a target altitude in meters as a floating point number.
 
 Example:
 
