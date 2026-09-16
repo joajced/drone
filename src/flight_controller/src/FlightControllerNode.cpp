@@ -4,22 +4,26 @@
 #include "flight_controller/FlightControllerNode.hpp"
 
 FlightControllerNode::FlightControllerNode()
-  : Node("flight_controller_node") {
-  /* Subscribe to the IMU topic */
+  : Node("flight_controller_node")
+  , throttleCommand_{0.0} {
   imuSubscription_ = this->create_subscription<sensor_msgs::msg::Imu>(
     "/x500/imu",
     10,
     [this](sensor_msgs::msg::Imu::ConstSharedPtr msg) { imuCallback(msg); }
   );
 
-  /* Subscribe to the air pressure topic */
   airPressureSubscription_ = this->create_subscription<sensor_msgs::msg::FluidPressure>(
     "/x500/air_pressure",
     10,
     [this](sensor_msgs::msg::FluidPressure::ConstSharedPtr msg) { airPressureCallback(msg); }
   );
 
-  /* Publish to the motor speed topic */
+  throttleCommandSubscription_ = this->create_subscription<std_msgs::msg::Float64>(
+    "/command/throttle",
+    10,
+    [this](std_msgs::msg::Float64::ConstSharedPtr msg) { throttleCommandCallback(msg); }
+  );
+
   motorSpeedPublisher_ = this->create_publisher<actuator_msgs::msg::Actuators>(
     "/x500/command/motor_speed",
     10
@@ -36,10 +40,10 @@ void FlightControllerNode::controlLoop() {
   actuator_msgs::msg::Actuators motorSpeeds;
 
   motorSpeeds.velocity = {
-    780.0,
-    780.0,
-    780.0,
-    780.0
+    throttleCommand_,
+    throttleCommand_,
+    throttleCommand_,
+    throttleCommand_
   };
 
   motorSpeedPublisher_->publish(motorSpeeds);
@@ -51,4 +55,8 @@ void FlightControllerNode::imuCallback(sensor_msgs::msg::Imu::ConstSharedPtr msg
 
 void FlightControllerNode::airPressureCallback(sensor_msgs::msg::FluidPressure::ConstSharedPtr msg) {
   latestAirPressureData_ = *msg;
+}
+
+void FlightControllerNode::throttleCommandCallback(std_msgs::msg::Float64::ConstSharedPtr msg) {
+  throttleCommand_ = msg->data;
 }

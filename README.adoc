@@ -1,5 +1,7 @@
 = Flight controller for a quadcopter drone
 
+== Tech stack
+
 * C++17
 * ROS 2 Jazzy
 * Simulated using Gazebo Harmonic (drone model based on PX4's x500)
@@ -37,4 +39,17 @@ ros2 launch drone_bringup sim.launch.py
 [source,bash]
 ----
 ros2 launch ros_gz_sim gz_sim.launch.py gz_args:="/usr/share/gz/gz-sim8/worlds/lawn.sdf"
+----
+
+== Sending commands to the drone
+
+The following commands are available to the user:
+
+* `/command/throttle`: Drive straight up or down. Expects a floating point number between 0 and 1000, where ~770 is enough to lift off.
+
+Example:
+
+[source,bash]
+----
+ros2 topic pub -1 /command/throttle std_msgs/msg/Float64 "{data: 780.0}"
 ----
