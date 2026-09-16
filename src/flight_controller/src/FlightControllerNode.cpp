@@ -5,6 +5,7 @@
 
 FlightControllerNode::FlightControllerNode()
   : Node("flight_controller_node")
+  , flightMode_{FlightMode::THROTTLE}
   , throttleCommand_{0.0} {
   imuSubscription_ = this->create_subscription<sensor_msgs::msg::Imu>(
     "/x500/imu",
@@ -39,12 +40,15 @@ FlightControllerNode::FlightControllerNode()
 void FlightControllerNode::controlLoop() {
   actuator_msgs::msg::Actuators motorSpeeds;
 
-  motorSpeeds.velocity = {
-    throttleCommand_,
-    throttleCommand_,
-    throttleCommand_,
-    throttleCommand_
-  };
+  switch (flightMode_) {
+    case FlightMode::THROTTLE:
+      doThrottle(motorSpeeds);
+      break;
+
+    case FlightMode::HOVER:
+      // TODO: Maintain a specific target altitude
+      break;
+  }
 
   motorSpeedPublisher_->publish(motorSpeeds);
 }
@@ -59,4 +63,14 @@ void FlightControllerNode::airPressureCallback(sensor_msgs::msg::FluidPressure::
 
 void FlightControllerNode::throttleCommandCallback(std_msgs::msg::Float64::ConstSharedPtr msg) {
   throttleCommand_ = msg->data;
+  flightMode_ = FlightMode::THROTTLE;
+}
+
+void FlightControllerNode::doThrottle(actuator_msgs::msg::Actuators& motorSpeeds) {
+  motorSpeeds.velocity = {
+    throttleCommand_,
+    throttleCommand_,
+    throttleCommand_,
+    throttleCommand_
+  };
 }

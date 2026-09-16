@@ -1,6 +1,7 @@
 #pragma once
 
 #include "actuator_msgs/msg/actuators.hpp"
+#include "flight_controller/FlightMode.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/fluid_pressure.hpp"
 #include "sensor_msgs/msg/imu.hpp"
@@ -19,6 +20,10 @@ private:
   void airPressureCallback(sensor_msgs::msg::FluidPressure::ConstSharedPtr msg);
   void throttleCommandCallback(std_msgs::msg::Float64::ConstSharedPtr msg);
 
+  /* Flight mode logic */
+
+  void doThrottle(actuator_msgs::msg::Actuators& motorSpeeds);
+
   /* Subscriptions */
 
   rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imuSubscription_;
@@ -36,6 +41,7 @@ private:
 
   /* Command data */
 
+  FlightMode flightMode_;
   double throttleCommand_;
 
   /* Timers */
