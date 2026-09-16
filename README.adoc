@@ -6,8 +6,8 @@
 
 == Features
 
-* Read IMU data
-* Fly (coming soon)
+* Read sensor data (IMU, air pressure)
+* Control rotor speeds
 
 == Running the simulation
 
