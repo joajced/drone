@@ -12,6 +12,13 @@ def generate_launch_description():
     output='screen'
   )
 
+  air_pressure_bridge = Node(
+    package='ros_gz_bridge',
+    executable='parameter_bridge',
+    arguments=['/x500/air_pressure@sensor_msgs/msg/FluidPressure[gz.msgs.FluidPressure'],
+    output='screen'
+  )
+
   motor_bridge = Node(
     package='ros_gz_bridge',
     executable='parameter_bridge',
@@ -29,6 +36,7 @@ def generate_launch_description():
 
   return LaunchDescription([
       imu_bridge,
+      air_pressure_bridge,
       motor_bridge,
       flight_controller
   ])
